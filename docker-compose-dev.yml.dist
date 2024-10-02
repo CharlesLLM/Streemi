@@ -1,0 +1,40 @@
+services:
+  app:
+    container_name: streemi-app
+    build:
+      args:
+        SYSTEM_PROCESSOR: x64
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "socket_dir:/.ssh-agent"
+
+  db:
+    container_name: streemi-db
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+      start_period: 60s
+
+  phpmyadmin:
+    container_name: streemi-phpmyadmin
+    image: phpmyadmin:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment:
+      UPLOAD_LIMIT: 512M
+      MAX_EXECUTION_TIME: 300
+
+volumes:
+  socket_dir:
