@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Setting\UserProfile;
-use App\Entity\Traits\EnabledTrait;
-use App\Entity\Traits\LastLoggedAtTrait;
-use App\Entity\Traits\TimestampableTrait;
-use App\Enum\GenderEnum;
+use App\Enum\AccountStatusEnum;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -33,21 +31,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 3, max: 100)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
-    private ?string $firstName = null;
-
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
-    private ?string $lastName = null;
+    #[Assert\Email]
+    private ?string $email = null;
 
     #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 50, enumType: AccountStatusEnum::class)]
+    private ?AccountStatusEnum $accountStatus = AccountStatusEnum::Active;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Subscription $currentSubscription = null;
+
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: SubscriptionHistory::class, orphanRemoval: true)]
+    private Collection $histories;
+
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: PlaylistSubscription::class, orphanRemoval: true)]
+    private Collection $playlistSubscriptions;
+
+    public function __construct()
+    {
+        $this->histories = new ArrayCollection();
+        $this->playlistSubscriptions = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -71,33 +83,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFirstName(): ?string
+    public function getEmail(): ?string
     {
-        return $this->firstName;
+        return $this->email;
     }
 
-    public function setFirstName(?string $firstName): static
+    public function setEmail(?string $email): static
     {
-        $this->firstName = $firstName;
+        $this->email = $email;
 
         return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(?string $lastName): static
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getFullName(): string
-    {
-        return \sprintf('%s %s', $this->firstName, $this->lastName);
     }
 
     public function getRoles(): array
@@ -143,6 +138,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getAccountStatus(): ?AccountStatusEnum
+    {
+        return $this->accountStatus;
+    }
+
+    public function setAccountStatus(?AccountStatusEnum $accountStatus): static
+    {
+        $this->accountStatus = $accountStatus;
+
+        return $this;
+    }
+
+    public function getCurrentSubscription(): ?Subscription
+    {
+        return $this->currentSubscription;
+    }
+
+    public function setCurrentSubscription(?Subscription $currentSubscription): static
+    {
+        $this->currentSubscription = $currentSubscription;
+
+        return $this;
+    }
+
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
@@ -151,5 +170,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function displayFullName(): string
     {
         return \sprintf('%s %s', $this->firstName, $this->lastName);
+    }
+
+    public function getHistories(): Collection
+    {
+        return $this->histories;
+    }
+
+    public function addHistory(SubscriptionHistory $history): static
+    {
+        if (!$this->histories->contains($history)) {
+            $this->histories->add($history);
+            $history->setSubscriber($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistory(SubscriptionHistory $history): static
+    {
+        if ($this->histories->removeElement($history)) {
+            // set the owning side to null (unless already changed)
+            if ($history->getSubscriber() === $this) {
+                $history->setSubscriber(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlaylistSubscriptions(): Collection
+    {
+        return $this->playlistSubscriptions;
+    }
+
+    public function addPlaylistSubscription(PlaylistSubscription $playlistSubscription): static
+    {
+        if (!$this->playlistSubscriptions->contains($playlistSubscription)) {
+            $this->playlistSubscriptions->add($playlistSubscription);
+            $playlistSubscription->setSubscriber($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylistSubscription(PlaylistSubscription $playlistSubscription): static
+    {
+        if ($this->playlistSubscriptions->removeElement($playlistSubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($playlistSubscription->getSubscriber() === $this) {
+                $playlistSubscription->setSubscriber(null);
+            }
+        }
+
+        return $this;
     }
 }
