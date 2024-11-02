@@ -1,7 +1,7 @@
 -include .env
 -include .env.local
 
-COMPOSE?=docker compose -f docker-compose.yml -f docker-compose-dev.yml
+COMPOSE?=docker compose -f compose.yaml -f compose.override.yaml
 EXEC?=$(COMPOSE) exec app
 CONSOLE?=$(EXEC) php bin/console
 

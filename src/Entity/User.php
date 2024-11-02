@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50, enumType: AccountStatusEnum::class)]
-    private ?AccountStatusEnum $accountStatus = AccountStatusEnum::Active;
+    private ?AccountStatusEnum $accountStatus = AccountStatusEnum::ACTIVE;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]

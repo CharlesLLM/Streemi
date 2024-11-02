@@ -2,8 +2,8 @@ on: pull_request
 
 env:
   APP_ENV: test
-  COMPOSE: docker compose -f docker-compose.yml -f docker-compose-ci.yml
-  EXEC: docker compose -f docker-compose.yml -f docker-compose-ci.yml exec -T app
+  COMPOSE: docker compose -f compose.yaml -f compose.ci.yaml
+  EXEC: docker compose -f compose.yaml -f compose.ci.yaml exec -T app
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
