@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Subscription;
 use App\Entity\SubscriptionHistory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;

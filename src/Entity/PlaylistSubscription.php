@@ -27,6 +27,7 @@ class PlaylistSubscription
     private ?Playlist $playlist = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Timestampable(on: 'create')]
     private ?\DateTimeInterface $subscribedAt = null;
 
     public function getId(): ?Uuid

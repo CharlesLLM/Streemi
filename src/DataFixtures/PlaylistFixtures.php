@@ -23,7 +23,6 @@ final class PlaylistFixtures extends Fixture implements DependentFixtureInterfac
                 ->setName($faker->unique()->word())
                 ->setCreatedBy($this->getReference(UserFixtures::REFERENCE_IDENTIFIER.'superadmin'))
                 ->setCreatedAt($faker->dateTimeBetween('-1 years', 'now'));
-            ;
 
             $manager->persist($playlist);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $playlist);
