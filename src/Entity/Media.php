@@ -51,10 +51,18 @@ class Media
     #[ORM\OneToMany(mappedBy: 'media', targetEntity: PlaylistMedia::class, orphanRemoval: true)]
     private Collection $playlistMedias;
 
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'medias')]
+    private Collection $categories;
+
+    #[ORM\ManyToMany(targetEntity: Language::class, inversedBy: 'medias')]
+    private Collection $languages;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->playlistMedias = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->languages = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -208,6 +216,48 @@ class Media
                 $playlistMedia->setMedia(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): static
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages->add($language);
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): static
+    {
+        $this->languages->removeElement($language);
 
         return $this;
     }
