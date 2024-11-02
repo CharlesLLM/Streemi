@@ -32,9 +32,13 @@ class Playlist
     #[ORM\OneToMany(mappedBy: 'playlist', targetEntity: PlaylistSubscription::class, orphanRemoval: true)]
     private Collection $playlistSubscriptions;
 
+    #[ORM\OneToMany(mappedBy: 'playlist', targetEntity: PlaylistMedia::class, orphanRemoval: true)]
+    private Collection $playlistMedias;
+
     public function __construct()
     {
         $this->playlistSubscriptions = new ArrayCollection();
+        $this->playlistMedias = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -91,6 +95,33 @@ class Playlist
             // set the owning side to null (unless already changed)
             if ($playlistSubscription->getPlaylist() === $this) {
                 $playlistSubscription->setPlaylist(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlaylistMedias(): Collection
+    {
+        return $this->playlistMedias;
+    }
+
+    public function addPlaylistMedia(PlaylistMedia $playlistMedia): static
+    {
+        if (!$this->playlistMedias->contains($playlistMedia)) {
+            $this->playlistMedias->add($playlistMedia);
+            $playlistMedia->setPlaylist($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylistMedia(PlaylistMedia $playlistMedia): static
+    {
+        if ($this->playlistMedias->removeElement($playlistMedia)) {
+            // set the owning side to null (unless already changed)
+            if ($playlistMedia->getPlaylist() === $this) {
+                $playlistMedia->setPlaylist(null);
             }
         }
 

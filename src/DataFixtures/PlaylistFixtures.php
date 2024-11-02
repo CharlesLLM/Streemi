@@ -17,11 +17,12 @@ final class PlaylistFixtures extends Fixture implements DependentFixtureInterfac
     {
         $faker = Factory::create('fr_FR');
 
-        foreach (range(1, self::FIXTURE_RANGE) as $i) {
+        foreach (range(0, self::FIXTURE_RANGE) as $i) {
             $playlist = new Playlist();
             $playlist
                 ->setName($faker->unique()->word())
                 ->setCreatedBy($this->getReference(UserFixtures::REFERENCE_IDENTIFIER.'superadmin'))
+                ->setCreatedAt($faker->dateTimeBetween('-1 years', 'now'));
             ;
 
             $manager->persist($playlist);
