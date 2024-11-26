@@ -10,7 +10,7 @@
 ###< symfony/framework-bundle ###
 
 ###> docker-compose ###
-/docker-compose-dev.yml
+/compose.override.yaml
 ###< docker-compose ###
 
 ###> friendsofphp/php-cs-fixer ###
