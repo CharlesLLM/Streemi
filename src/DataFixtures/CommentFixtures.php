@@ -24,13 +24,14 @@ final class CommentFixtures extends Fixture implements DependentFixtureInterface
                 ->setContent($faker->text(500))
                 ->setStatus(CommentStatusEnum::random())
                 ->setAuthor($this->getReference(UserFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, UserFixtures::FIXTURE_RANGE)))
-                ->setMedia($this->getReference(MediaFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(0, MediaFixtures::FIXTURE_RANGE)))
+                ->setMedia($this->getReference(MovieFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, MovieFixtures::FIXTURE_RANGE)))
             ;
 
             if ($i > 3) {
-                $comment->setParent($this->getReference(self::REFERENCE_IDENTIFIER.$faker->numberBetween(0, $i - 1)));
+                $comment->setParent($this->getReference(self::REFERENCE_IDENTIFIER.$faker->numberBetween(1, $i)));
             }
 
+            ++$i;
             $manager->persist($comment);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $comment);
         }
@@ -42,7 +43,8 @@ final class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
-            MediaFixtures::class,
+            MovieFixtures::class,
+            SerieFixtures::class,
         ];
     }
 }

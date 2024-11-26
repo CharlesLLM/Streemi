@@ -23,6 +23,7 @@ final class CategoryFixtures extends Fixture
                 ->setLabel($faker->unique()->sentence())
             ;
 
+            ++$i;
             $manager->persist($category);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $category);
         }

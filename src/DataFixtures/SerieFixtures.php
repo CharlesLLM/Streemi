@@ -2,15 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Media;
-use App\Enum\MediaTypeEnum;
+use App\Entity\Serie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-final class MediaFixtures extends Fixture
+final class SerieFixtures extends Fixture
 {
-    public const string REFERENCE_IDENTIFIER = 'media_';
+    public const string REFERENCE_IDENTIFIER = 'serie_';
     public const int FIXTURE_RANGE = 10;
 
     public function load(ObjectManager $manager): void
@@ -18,9 +17,8 @@ final class MediaFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         foreach (range(0, self::FIXTURE_RANGE) as $i) {
-            $media = new Media();
-            $media
-                ->setType(MediaTypeEnum::random())
+            $serie = new Serie();
+            $serie
                 ->setTitle($faker->sentence())
                 ->setShortDescription($faker->text(100))
                 ->setLongDescription($faker->text(500))
@@ -30,8 +28,9 @@ final class MediaFixtures extends Fixture
                 ->setCast([$faker->name, $faker->name, $faker->name])
             ;
 
-            $manager->persist($media);
-            $this->setReference(self::REFERENCE_IDENTIFIER.$i, $media);
+            ++$i;
+            $manager->persist($serie);
+            $this->setReference(self::REFERENCE_IDENTIFIER.$i, $serie);
         }
 
         $manager->flush();

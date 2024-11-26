@@ -24,6 +24,7 @@ final class SubscriptionFixtures extends Fixture
                 ->setDuration($faker->numberBetween(1, 12))
             ;
 
+            ++$i;
             $manager->persist($subscription);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $subscription);
         }

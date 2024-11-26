@@ -24,6 +24,9 @@ vendor:
 bash:
 	$(EXEC) bash
 
+sf:
+	$(CONSOLE) $(c)
+
 db:
 	@$(CONSOLE) doctrine:database:drop --if-exists --force
 	@$(CONSOLE) doctrine:database:create --if-not-exists

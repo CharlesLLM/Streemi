@@ -27,13 +27,13 @@ final class UserFixtures extends Fixture implements DependentFixtureInterface
             ->setEmail('test@test.fr')
             ->setPassword($this->passwordHasher->hashPassword($user, 'superadmin'))
             ->setRoles(['ROLE_ADMIN'])
-            ->setCurrentSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(0, SubscriptionFixtures::FIXTURE_RANGE)))
+            ->setCurrentSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, SubscriptionFixtures::FIXTURE_RANGE)))
         ;
 
         $manager->persist($user);
         $this->setReference(self::REFERENCE_IDENTIFIER.'superadmin', $user);
 
-        foreach (range(1, self::FIXTURE_RANGE) as $i) {
+        foreach (range(0, self::FIXTURE_RANGE) as $i) {
             $mainRole = 1 === $i ? 'admin' : 'user';
 
             $user = new User();
@@ -45,13 +45,14 @@ final class UserFixtures extends Fixture implements DependentFixtureInterface
                     'admin' === $mainRole ? 'admin' : 'user'
                 ))
                 ->setRoles(['ROLE_USER'])
-                ->setCurrentSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(0, SubscriptionFixtures::FIXTURE_RANGE)))
+                ->setCurrentSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, SubscriptionFixtures::FIXTURE_RANGE)))
             ;
 
             if ('admin' === $mainRole) {
                 $user->addRole('ROLE_ADMIN');
             }
 
+            ++$i;
             $manager->persist($user);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $user);
         }

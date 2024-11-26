@@ -25,6 +25,7 @@ final class PlaylistSubscriptionFixtures extends Fixture implements DependentFix
                 ->setSubscribedAt($faker->dateTimeBetween('-1 year', '-1 month'))
             ;
 
+            ++$i;
             $manager->persist($history);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $history);
         }

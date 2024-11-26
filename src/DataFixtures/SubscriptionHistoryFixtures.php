@@ -21,11 +21,12 @@ final class SubscriptionHistoryFixtures extends Fixture implements DependentFixt
             $history = new SubscriptionHistory();
             $history
                 ->setSubscriber($this->getReference(UserFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, UserFixtures::FIXTURE_RANGE)))
-                ->setSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(0, SubscriptionFixtures::FIXTURE_RANGE)))
+                ->setSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, SubscriptionFixtures::FIXTURE_RANGE)))
                 ->setStartDate($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setEndDate($faker->dateTimeBetween('+1 month', '+1 year'))
             ;
 
+            ++$i;
             $manager->persist($history);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $history);
         }

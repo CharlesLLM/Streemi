@@ -13,16 +13,16 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
-class Media
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap(['movie' => Movie::class, 'serie' => Serie::class])]
+abstract class Media
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
-
-    #[ORM\Column(enumType: MediaTypeEnum::class)]
-    private ?MediaTypeEnum $type = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -57,29 +57,21 @@ class Media
     #[ORM\ManyToMany(targetEntity: Language::class, inversedBy: 'medias')]
     private Collection $languages;
 
+    #[ORM\OneToMany(mappedBy: 'media', targetEntity: WatchHistory::class)]
+    private Collection $watchHistories;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->playlistMedias = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->languages = new ArrayCollection();
+        $this->watchHistories = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
     {
         return $this->id;
-    }
-
-    public function getType(): ?MediaTypeEnum
-    {
-        return $this->type;
-    }
-
-    public function setType(MediaTypeEnum $type): static
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -258,6 +250,33 @@ class Media
     public function removeLanguage(Language $language): static
     {
         $this->languages->removeElement($language);
+
+        return $this;
+    }
+
+    public function getWatchHistories(): Collection
+    {
+        return $this->watchHistories;
+    }
+
+    public function addWatchHistory(WatchHistory $watchHistory): static
+    {
+        if (!$this->watchHistories->contains($watchHistory)) {
+            $this->watchHistories->add($watchHistory);
+            $watchHistory->setMedia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWatchHistory(WatchHistory $watchHistory): static
+    {
+        if ($this->watchHistories->removeElement($watchHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($watchHistory->getMedia() === $this) {
+                $watchHistory->setMedia(null);
+            }
+        }
 
         return $this;
     }

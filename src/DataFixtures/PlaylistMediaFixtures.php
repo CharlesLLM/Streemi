@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\PlaylistMedia;
+use App\Entity\Serie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -20,11 +21,12 @@ final class PlaylistMediaFixtures extends Fixture implements DependentFixtureInt
         foreach (range(0, self::FIXTURE_RANGE) as $i) {
             $playlistMedia = new PlaylistMedia();
             $playlistMedia
-                ->setPlaylist($this->getReference(PlaylistFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(0, PlaylistFixtures::FIXTURE_RANGE)))
-                ->setMedia($this->getReference(MediaFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(0, MediaFixtures::FIXTURE_RANGE)))
+                ->setPlaylist($this->getReference(PlaylistFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, PlaylistFixtures::FIXTURE_RANGE)))
+                ->setMedia($this->getReference(MovieFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, MovieFixtures::FIXTURE_RANGE)))
                 ->setAddedAt($faker->dateTimeBetween('-1 year', 'now'))
             ;
 
+            ++$i;
             $manager->persist($playlistMedia);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $playlistMedia);
         }
@@ -36,7 +38,8 @@ final class PlaylistMediaFixtures extends Fixture implements DependentFixtureInt
     {
         return [
             PlaylistFixtures::class,
-            MediaFixtures::class,
+            MovieFixtures::class,
+            SerieFixtures::class,
         ];
     }
 }
