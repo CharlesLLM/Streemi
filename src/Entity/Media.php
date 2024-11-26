@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Enum\MediaTypeEnum;
 use App\Repository\MediaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
