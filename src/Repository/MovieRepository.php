@@ -12,4 +12,13 @@ class MovieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Movie::class);
     }
+
+    public function findLastMovies(int $limit): array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.releaseDate', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }
