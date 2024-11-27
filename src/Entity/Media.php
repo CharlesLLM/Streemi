@@ -33,7 +33,7 @@ abstract class Media
     private ?string $longDescription = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $subscribedAt = null;
+    private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(length: 255)]
     private ?string $coverImage = null;
@@ -109,14 +109,14 @@ abstract class Media
         return $this;
     }
 
-    public function getSubscribedAt(): ?\DateTimeInterface
+    public function getReleaseDate(): ?\DateTimeInterface
     {
-        return $this->subscribedAt;
+        return $this->releaseDate;
     }
 
-    public function setSubscribedAt(?\DateTimeInterface $subscribedAt): static
+    public function setReleaseDate(?\DateTimeInterface $releaseDate): static
     {
-        $this->subscribedAt = $subscribedAt;
+        $this->releaseDate = $releaseDate;
 
         return $this;
     }
