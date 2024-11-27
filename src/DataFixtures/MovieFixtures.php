@@ -5,11 +5,12 @@ namespace App\DataFixtures;
 use App\Entity\Movie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 final class MovieFixtures extends Fixture
 {
     public const string REFERENCE_IDENTIFIER = 'movie_';
-    public const int FIXTURE_RANGE = 11;
+    public const int FIXTURE_RANGE = 30;
     public const array DATA = [
         [
             'title' => 'Harry Potter 1',
@@ -114,17 +115,33 @@ final class MovieFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::DATA as $key => $value) {
+        $faker = Factory::create('fr_FR');
+
+        foreach (range(0, self::FIXTURE_RANGE) as $key) {
             $movie = new Movie();
-            $movie
-                ->setTitle($value['title'])
-                ->setShortDescription($value['shortDescription'])
-                ->setLongDescription($value['longDescription'])
-                ->setReleaseDate(new \DateTime($value['releaseDate']))
-                ->setCoverImage($value['coverImage'])
-                ->setStaff($value['staff'])
-                ->setCast($value['cast'])
-            ;
+
+            if (isset(self::DATA[$key])) {
+                $data = self::DATA[$key];
+                $movie
+                    ->setTitle($data['title'])
+                    ->setShortDescription($data['shortDescription'])
+                    ->setLongDescription($data['longDescription'])
+                    ->setReleaseDate(new \DateTime($data['releaseDate']))
+                    ->setCoverImage($data['coverImage'])
+                    ->setStaff($data['staff'])
+                    ->setCast($data['cast'])
+                ;
+            } else {
+                $movie
+                    ->setTitle($faker->sentence(3))
+                    ->setShortDescription($faker->realText(100))
+                    ->setLongDescription($faker->realText(500))
+                    ->setReleaseDate($faker->dateTimeBetween('-50 year', 'now'))
+                    ->setCoverImage('https://picsum.photos/310/420')
+                    ->setStaff([$faker->name, $faker->name, $faker->name])
+                    ->setCast([$faker->name, $faker->name, $faker->name])
+                ;
+            }
 
             ++$key;
             $manager->persist($movie);

@@ -22,7 +22,7 @@ final class CategoryController extends AbstractController
     {
         return $this->render('app/category.html.twig', [
             'categories' => $this->categoryRepository->findAll(),
-            'movies' => $movieRepository->findAll(),
+            'movies' => $movieRepository->findLastMovies(10),
         ]);
     }
 }
