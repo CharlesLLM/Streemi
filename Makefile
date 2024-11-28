@@ -17,12 +17,19 @@ up:
 stop:
 	$(COMPOSE) stop
 
+rm:
+	make stop
+	$(COMPOSE) rm
+
 vendor:
 	$(EXEC) composer install -n
 	make perm
 
 bash:
 	$(EXEC) bash
+
+sh:
+	$(EXEC) $(c)
 
 sf:
 	$(CONSOLE) $(c)
@@ -36,6 +43,11 @@ db:
 cc:
 	$(CONSOLE) cache:clear --no-warmup
 	$(CONSOLE) cache:warmup
+
+assets:
+	rm -rf ./public/assets
+	mkdir -p ./public/uploads/project ./public/uploads/technology
+	$(CONSOLE) asset-map:compile
 
 perm:
 	sudo chown -R $(USER):$(USER) .

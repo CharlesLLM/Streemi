@@ -36,6 +36,8 @@
         "symfony/translation": "*",
         "symfony/twig-bundle": "*",
         "symfony/uid": "*",
+        "symfony/ux-live-component": "*",
+        "symfony/ux-turbo": "*",
         "symfony/ux-twig-component": "^2.17",
         "symfony/validator": "*",
         "symfony/web-link": "*",

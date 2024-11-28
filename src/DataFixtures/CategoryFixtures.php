@@ -5,25 +5,44 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class CategoryFixtures extends Fixture
 {
     public const string REFERENCE_IDENTIFIER = 'category_';
-    public const int FIXTURE_RANGE = 10;
+    public const int FIXTURE_RANGE = 4;
+    public const array DATA = [
+        'action' => [
+            'name' => 'Action',
+            'label' => 'Action',
+        ],
+        'adventure' => [
+            'name' => 'Aventure',
+            'label' => 'Aventure',
+        ],
+        'comedy' => [
+            'name' => 'Comédie',
+            'label' => 'Comédie',
+        ],
+        'sci-fi' => [
+            'name' => 'Science Fiction',
+            'label' => 'Science Fiction',
+        ],
+    ];
 
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_FR');
+        $slugger = new AsciiSlugger();
 
-        foreach (range(0, self::FIXTURE_RANGE) as $i) {
+        foreach (self::DATA as $i => $data) {
             $category = new Category();
             $category
-                ->setName($faker->unique()->sentence())
-                ->setLabel($faker->unique()->sentence())
+                ->setName($data['name'])
+                ->setSlug($slugger->slug($data['name']))
+                ->setLabel($data['label'])
             ;
 
-            ++$i;
             $manager->persist($category);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $category);
         }

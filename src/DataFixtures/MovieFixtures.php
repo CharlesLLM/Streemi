@@ -116,6 +116,7 @@ final class MovieFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
+        $categoryKeys = array_keys(CategoryFixtures::DATA);
 
         foreach (range(0, self::FIXTURE_RANGE) as $key) {
             $movie = new Movie();
@@ -130,6 +131,7 @@ final class MovieFixtures extends Fixture
                     ->setCoverImage($data['coverImage'])
                     ->setStaff($data['staff'])
                     ->setCast($data['cast'])
+                    ->addCategory($this->getReference(CategoryFixtures::REFERENCE_IDENTIFIER.'adventure'))
                 ;
             } else {
                 $movie
@@ -140,6 +142,7 @@ final class MovieFixtures extends Fixture
                     ->setCoverImage('https://picsum.photos/310/420')
                     ->setStaff([$faker->name, $faker->name, $faker->name])
                     ->setCast([$faker->name, $faker->name, $faker->name])
+                    ->addCategory($this->getReference(CategoryFixtures::REFERENCE_IDENTIFIER.$faker->randomElement($categoryKeys)))
                 ;
             }
 
