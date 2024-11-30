@@ -5,9 +5,9 @@ COMPOSE?=docker compose -f compose.yaml -f compose.override.yaml
 EXEC?=$(COMPOSE) exec app
 CONSOLE?=$(EXEC) php bin/console
 
-.PHONY: start up vendor bash db fixtures cc stop
+.PHONY: start up vendor bash db fixtures cc stop rm perm php-lint twig-lint
 
-start: up vendor db cc
+start: up vendor db cc perm
 
 up:
 	docker kill $$(docker ps -q) || true
@@ -17,6 +17,10 @@ up:
 stop:
 	$(COMPOSE) stop
 
+rm:
+	make stop
+	$(COMPOSE) rm
+
 vendor:
 	$(EXEC) composer install -n
 	make perm
@@ -24,18 +28,26 @@ vendor:
 bash:
 	$(EXEC) bash
 
+sh:
+	$(EXEC) $(c)
+
 sf:
 	$(CONSOLE) $(c)
 
 db:
-	@$(CONSOLE) doctrine:database:drop --if-exists --force
-	@$(CONSOLE) doctrine:database:create --if-not-exists
-	@$(CONSOLE) doctrine:schema:update --force --complete
-	@$(CONSOLE) doctrine:fixtures:load -n
+	@$(CONSOLE) d:d:d --if-exists --force
+	@$(CONSOLE) d:d:c --if-not-exists
+	@$(CONSOLE) d:s:u --force --complete
+	@$(CONSOLE) d:f:l -n
 
 cc:
-	$(CONSOLE) cache:clear --no-warmup
-	$(CONSOLE) cache:warmup
+	$(CONSOLE) c:cl --no-warmup
+	$(CONSOLE) c:w
+
+assets:
+	rm -rf ./public/assets
+	mkdir -p ./public/uploads/project ./public/uploads/technology
+	$(CONSOLE) asset-map:compile
 
 perm:
 	sudo chown -R $(USER):$(USER) .
