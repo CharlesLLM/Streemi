@@ -14,6 +14,17 @@ services:
     volumes:
       - "socket_dir:/.ssh-agent"
 
+  vite:
+    container_name: streemi-vite
+    image: node:lts-alpine
+    entrypoint: ["yarn", "install", "&&", "yarn", "run", "dev", "--host"]
+    working_dir: /app
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ".:/app"
+
   db:
     container_name: streemi-db
     restart: unless-stopped

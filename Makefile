@@ -23,6 +23,7 @@ rm:
 
 vendor:
 	$(EXEC) composer install -n
+	$(EXEC) yarn workspaces focus -A
 	make perm
 
 bash:
@@ -47,7 +48,8 @@ cc:
 assets:
 	rm -rf ./public/assets
 	mkdir -p ./public/uploads/project ./public/uploads/technology
-	$(CONSOLE) asset-map:compile
+	$(CONSOLE) assets:install
+	$(EXEC) yarn run build --mode development
 
 perm:
 	sudo chown -R $(USER):$(USER) .
