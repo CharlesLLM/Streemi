@@ -5,9 +5,9 @@ COMPOSE?=docker compose -f compose.yaml -f compose.override.yaml
 EXEC?=$(COMPOSE) exec app
 CONSOLE?=$(EXEC) php bin/console
 
-.PHONY: start up vendor bash db fixtures cc stop
+.PHONY: start up vendor bash db fixtures cc stop rm perm php-lint twig-lint
 
-start: up vendor db cc
+start: up vendor db cc perm
 
 up:
 	docker kill $$(docker ps -q) || true
@@ -35,14 +35,14 @@ sf:
 	$(CONSOLE) $(c)
 
 db:
-	@$(CONSOLE) doctrine:database:drop --if-exists --force
-	@$(CONSOLE) doctrine:database:create --if-not-exists
-	@$(CONSOLE) doctrine:schema:update --force --complete
-	@$(CONSOLE) doctrine:fixtures:load -n
+	@$(CONSOLE) d:d:d --if-exists --force
+	@$(CONSOLE) d:d:c --if-not-exists
+	@$(CONSOLE) d:s:u --force --complete
+	@$(CONSOLE) d:f:l -n
 
 cc:
-	$(CONSOLE) cache:clear --no-warmup
-	$(CONSOLE) cache:warmup
+	$(CONSOLE) c:cl --no-warmup
+	$(CONSOLE) c:w
 
 assets:
 	rm -rf ./public/assets

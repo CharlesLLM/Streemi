@@ -4,9 +4,14 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
+/node_modules/
 /public/bundles/
 /var/
 /vendor/
+/public/build/
+yarn-error.log
+.yarn/cache
+.yarn/install-state.gz
 ###< symfony/framework-bundle ###
 
 ###> docker-compose ###

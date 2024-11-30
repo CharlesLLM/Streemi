@@ -51,13 +51,12 @@ RUN apt-get update && apt-get install -qy default-mysql-client
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Configuration files
-COPY docker/app/php.ini /etc/php/${PHP_VERSION}/cli/conf.d/50-setting.ini
-COPY docker/app/php.ini /etc/php/${PHP_VERSION}/fpm/conf.d/50-setting.ini
-COPY docker/app/pool.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
-COPY docker/app/nginx.conf /etc/nginx/nginx.conf
-COPY docker/app/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/app/symfony.conf /etc/nginx/symfony.conf
-COPY docker/app/certificates /etc/nginx/ssl
+COPY docker/php.ini /etc/php/${PHP_VERSION}/cli/conf.d/50-setting.ini
+COPY docker/php.ini /etc/php/${PHP_VERSION}/fpm/conf.d/50-setting.ini
+COPY docker/pool.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/symfony.conf /etc/nginx/symfony.conf
 
 RUN mkdir -p /app/var/log /app/var/cache /run/php
 
