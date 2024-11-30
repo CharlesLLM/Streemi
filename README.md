@@ -4,10 +4,20 @@
 
 ## Install project
 
-- [Install project](docs/install.md)
-- Go to [https://localhost/](https://localhost/)
-- Go to [http://localhost:8080](http://localhost:8080) to see the database (username: root, password: root)
-- Go to [http://localhost:1080](http://localhost:1080) to see caught emails
+1. Clone the project:
+    
+```bash
+git clone git@github.com:CharlesLLM/Streemi.git
+cd Streemi
+```
+
+<!-- TODO : Complete -->
+
+Your project is now set up and ready to go!
+
+- Project: [localhost](http://localhost/)
+- PhpMyAdmin: [localhost:8080](http://localhost:8080)
+- Mailcatcher: [localhost:1080](http://localhost:1080)
 
 *Make Commands* :
 
@@ -29,6 +39,7 @@
 
 ## List of users for testing (fixtures)
 
+<!-- TODO : Check if the passwords are correct -->
 | Email                       | Password   | Roles                                    |
 | --------------------------- | ---------- | ---------------------------------------- |
 | `superadmin@mentalworks.fr` | `admin`    | ROLE_SUPER_ADMIN, ROLE_ALLOWED_TO_SWITCH |
@@ -39,14 +50,11 @@
 
 For easier testing with Cypress, follow these steps:
 
-1. Add `APP_ENV=test` in your `.env.local` file
-2. (if you use the dev server) Run `make tf-assets` to build assets and stop the vite dev server
-3. Run `make db` and `make perm` to init a test database and set up permissions
-4. Go into the `e2e` folder and install the dependencies with `npm install`
-5. (if you don't have Cypress installed) Run `npx cypress install` (or `bunx cypress install` with Bun) to install Cypress
-6. Run `npx cypress open` (or `bunx cypress open` with Bun) to open Cypress and run your tests
+```bash
+cd e2e
+npx cypress open
+```
 
-> [!NOTE]
-> Don't forget to change your `.env.local` file back to `APP_ENV=dev` when you're done testing
+and then run your tests from the Cypress window.
 
-Alternatively, you can run the tests with `make tf` (or `make tf TEST='path/to/test'` to run a specific test), but you will not be able to see the tests running in the browser (and won't be able to debug them as easily).
+You can also run the tests with `make tf` (or `make tf TEST='<test_path>'`) to run tests in your terminal.
