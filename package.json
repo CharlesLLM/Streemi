@@ -1,0 +1,64 @@
+{
+  "name": "streemi",
+  "version": "1.0.0",
+  "description": "Streemi POC",
+  "author": "CharlesLLM <charlesllm@orange.fr>",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "yarn@3.6.3",
+  "scripts": {
+    "precommit": "lint-staged",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "pre-commit": "precommit",
+  "lint-staged": {
+    "src/**/*.php": [
+      "make php-lint"
+    ],
+    "templates/**/*.html.twig": [
+      "make twig-lint"
+    ]
+  },
+  "devDependencies": {
+    "@fastify/pre-commit": "^2.1.0",
+    "@symfony/stimulus-bridge": "^3.2.2",
+    "@types/hotwired__turbo": "^8.0.1",
+    "@types/node": "^20.11.20",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-i": "^2.29.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "lint-staged": "^15.2.2",
+    "postcss": "^8.4.49",
+    "prettier": "3.2.5",
+    "tailwindcss": "^3.4.15",
+    "webpack-notifier": "^1.15.0"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo": "^8.0.12",
+    "@symfony/stimulus-bundle": "file:vendor/symfony/stimulus-bundle/assets",
+    "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
+    "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.13",
+    "postcss-loader": "^8.1.0",
+    "regenerator-runtime": "^0.14.1",
+    "sass": "^1.71.1",
+    "sass-loader": "^14.1.1",
+    "stimulus-use": "^0.52.2",
+    "tailwind-scrollbar": "^3.1.0",
+    "tailwindcss-animated": "^1.0.1",
+    "tailwindcss-convert-px-to-rem": "^1.0.4",
+    "vite": "^5.2.9",
+    "vite-plugin-symfony": "^6.5"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.14.3"
+  }
+}

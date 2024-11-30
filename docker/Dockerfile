@@ -44,6 +44,12 @@ RUN curl -sSL -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/ap
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-intl
 
+# Install NodeJS & Enable Corepack
+RUN curl -L -o /tmp/nodejs.tar.gz https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${SYSTEM_PROCESSOR}.tar.gz -k && \
+    tar xfvz /tmp/nodejs.tar.gz -C /usr/local --strip-components=1 && \
+    rm -f /tmp/nodejs.tar.gz && \
+    corepack enable
+
 # Install Mysql utils
 RUN apt-get update && apt-get install -qy default-mysql-client
 
