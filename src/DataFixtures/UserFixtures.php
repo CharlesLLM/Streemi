@@ -24,9 +24,9 @@ final class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $user = new User();
         $user->setUsername('superadmin')
-            ->setEmail('test@test.fr')
+            ->setEmail('superadmin@esgi.fr')
             ->setPassword($this->passwordHasher->hashPassword($user, 'superadmin'))
-            ->setRoles(['ROLE_ADMIN'])
+            ->setRoles(['ROLE_SUPER_ADMIN'])
             ->setCurrentSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, SubscriptionFixtures::FIXTURE_RANGE)))
         ;
 
@@ -34,25 +34,20 @@ final class UserFixtures extends Fixture implements DependentFixtureInterface
         $this->setReference(self::REFERENCE_IDENTIFIER.'superadmin', $user);
 
         foreach (range(0, self::FIXTURE_RANGE) as $i) {
-            $mainRole = 1 === $i ? 'admin' : 'user';
+            $isAdmin = 0 === $i;
 
             $user = new User();
             $user
-                ->setUsername($faker->unique(1 === $i)->userName())
-                ->setEmail($faker->unique(1 === $i)->email())
+                ->setUsername($faker->unique()->userName())
+                ->setEmail($isAdmin ? 'admin@esgi.fr' : "user{$i}@esgi.fr")
                 ->setPassword($this->passwordHasher->hashPassword(
                     $user,
-                    'admin' === $mainRole ? 'admin' : 'user'
+                    $isAdmin ? 'admin' : 'user' // admin password is 'admin', user password is 'user'
                 ))
-                ->setRoles(['ROLE_USER'])
+                ->setRoles($isAdmin ? ['ROLE_ADMIN'] : ['ROLE_USER'])
                 ->setCurrentSubscription($this->getReference(SubscriptionFixtures::REFERENCE_IDENTIFIER.$faker->numberBetween(1, SubscriptionFixtures::FIXTURE_RANGE)))
             ;
 
-            if ('admin' === $mainRole) {
-                $user->addRole('ROLE_ADMIN');
-            }
-
-            ++$i;
             $manager->persist($user);
             $this->setReference(self::REFERENCE_IDENTIFIER.$i, $user);
         }
