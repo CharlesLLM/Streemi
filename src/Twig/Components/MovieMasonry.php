@@ -3,7 +3,6 @@
 namespace App\Twig\Components;
 
 use App\Entity\Category;
-use App\Entity\Movie;
 use App\Repository\MovieRepository;
 use App\Service\MediaService;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
