@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: streemi
-      MYSQL_USER: Charles
-      MYSQL_PASSWORD: Charles
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
 
   app:
     container_name: streemi-app

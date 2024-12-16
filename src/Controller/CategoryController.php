@@ -26,15 +26,9 @@ final class CategoryController extends AbstractController
         MovieRepository $movieRepository,
         Request $request,
     ): Response {
-        $page = $request->query->getInt('page', 1);
-        $limit = 5;
-        $movies = $movieRepository->findByCategory($category, $limit);
-
         return $this->render('app/category.html.twig', [
             'category' => $category,
             'categories' => $this->categoryRepository->findAll(),
-            'movies' => $movies,
-            'page' => $page,
         ]);
     }
 }
