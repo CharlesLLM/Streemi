@@ -3,36 +3,47 @@
 namespace App\Twig\Components;
 
 use App\Entity\Category;
+use App\Entity\Movie;
 use App\Repository\MovieRepository;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Service\MediaService;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent]
 class MovieMasonry
 {
+    use ComponentToolsTrait;
     use DefaultActionTrait;
 
-    #[LiveProp(writable: true)]
-    public ?Category $category = null;
+    public Category $category;
 
-    #[LiveProp(writable: true)]
-    public int $limit = 10;
+    private const PER_PAGE = 2;
 
-    public function __construct(private MovieRepository $movieRepository)
-    {
-    }
+    #[LiveProp]
+    public int $page = 1;
 
-    public function getMovies(): array
-    {
-        return $this->movieRepository->findByCategory($category, $this->limit);
+    public function __construct(
+        private readonly MediaService $mediaService,
+        private readonly MovieRepository $movieRepository,
+    ) {
     }
 
     #[LiveAction]
-    public function loadMore(): void
+    public function more(): void
     {
-        $this->limit += 10;
+        ++$this->page;
+    }
+
+    public function hasMore(): bool
+    {
+        return $this->movieRepository->hasMore($this->category, $this->page, self::PER_PAGE);
+    }
+
+    public function getMovies(): iterable
+    {
+        return $this->mediaService->paginate(Movie::class, $this->page, self::PER_PAGE, $this->category);
     }
 }
