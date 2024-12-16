@@ -3,7 +3,9 @@
 namespace App\Twig\Components;
 
 use App\Entity\Category;
+use App\Entity\Movie;
 use App\Repository\MovieRepository;
+use App\Service\MediaCollection;
 use App\Service\MediaService;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -20,6 +22,9 @@ class MovieMasonry
     #[LiveProp]
     public Category $category;
 
+    #[LiveProp]
+    public MediaCollection $mediaCollection;
+
     private const PER_PAGE = 3;
 
     #[LiveProp]
@@ -29,6 +34,7 @@ class MovieMasonry
         private readonly MediaService $mediaService,
         private readonly MovieRepository $movieRepository,
     ) {
+        $this->mediaCollection = new MediaCollection();
     }
 
     #[LiveAction]
@@ -45,6 +51,12 @@ class MovieMasonry
     public function getMovies(): iterable
     {
         $results = $this->mediaService->paginate('movie', $this->page, self::PER_PAGE, $this->category);
+
+        if (!empty($results->getItems())) {
+            foreach ($results->getItems() as $media) {
+                $this->mediaCollection->add($media);
+            }
+        }
 
         return $this->mediaService->formatForDisplay($results);
     }

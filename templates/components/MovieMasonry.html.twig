@@ -1,4 +1,8 @@
 <div {{ attributes }}>
+    {% if page > 1 %}
+        <div id="page-{{ page - 1 }}" class="hidden" data-live-ignore="true"></div>
+    {% endif %}
+
     <ul class="mt-4 grid grid-cols-2 gap-y-5 sm:grid-cols-3 gap-x-5" id="page-{{ page }}" data-live-ignore="true">
         {% for movie in this.movies %}
             <li>
