@@ -18,9 +18,12 @@ class MovieMasonry
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
+    private iterable $movies = [];
+
+    #[LiveProp]
     public Category $category;
 
-    private const PER_PAGE = 2;
+    private const PER_PAGE = 3;
 
     #[LiveProp]
     public int $page = 1;
@@ -44,6 +47,11 @@ class MovieMasonry
 
     public function getMovies(): iterable
     {
-        return $this->mediaService->paginate(Movie::class, $this->page, self::PER_PAGE, $this->category);
+        $pagination = $this->mediaService->paginate('movie', $this->page, self::PER_PAGE, $this->category);
+        $results = $this->mediaService->formatForDisplay($pagination);
+
+        $this->movies = array_merge($this->movies, $results);
+
+        return $this->movies;
     }
 }
