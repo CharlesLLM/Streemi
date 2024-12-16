@@ -5,15 +5,12 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Repository\MovieRepository;
 use App\Repository\SerieRepository;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use Knp\Component\Pager\PaginatorInterface;
 
 final class MediaService
 {
     public function __construct(
         private readonly MovieRepository $movieRepository,
         private readonly SerieRepository $serieRepository,
-        private readonly PaginatorInterface $paginator,
     ) {
     }
 
@@ -29,15 +26,14 @@ final class MediaService
     public function paginate(string $entity, int $page, int $limit, Category $category): iterable
     {
         $repository = $this->matchRepository($entity);
-        $query = $repository->queryByCategory($category);
 
-        return $this->paginator->paginate($query, $page, $limit);
+        return $repository->findByCategory($category, $page * $limit);
     }
 
-    public function formatForDisplay(PaginationInterface $results): iterable
+    public function formatForDisplay(array $results): array
     {
         $items = [];
-        foreach ($results->getItems() as $item) {
+        foreach ($results as $item) {
             $items[] = [
                 'id' => $item->getId(),
                 'title' => $item->getTitle(),

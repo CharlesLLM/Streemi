@@ -13,7 +13,6 @@
         "doctrine/orm": "^2.19",
         "fakerphp/faker": "^1.23",
         "gedmo/doctrine-extensions": "^3.17",
-        "knplabs/knp-paginator-bundle": "*",
         "phpstan/phpdoc-parser": "^1.24",
         "symfony/asset": "*",
         "symfony/asset-mapper": "7.1.*",
