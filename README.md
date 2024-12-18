@@ -55,11 +55,11 @@ Your project is now set up and ready to go!
 ## List of users for testing (fixtures)
 
 <!-- TODO : Check if the passwords are correct -->
-| Email                | Password     | Roles                                                           |
-| -------------------- | ------------ | --------------------------------------------------------------- |
-| `superadmin@esgi.fr` | `superadmin` | ROLE_SUPER_ADMIN, ROLE_ALLOWED_TO_SWITCH, ROLE_ADMIN, ROLE_USER |
-| `admin@esgi.fr`      | `admin`      | ROLE_ADMIN                                                      |
-| `user{1..5}@esgi.fr` | `user`       | ROLE_USER                                                       |
+| Login        | Password     | Roles                                                           |
+| ------------ | ------------ | --------------------------------------------------------------- |
+| `superadmin` | `superadmin` | ROLE_SUPER_ADMIN, ROLE_ALLOWED_TO_SWITCH, ROLE_ADMIN, ROLE_USER |
+| `admin`      | `admin`      | ROLE_ADMIN                                                      |
+| `user{1..5}` | `user`       | ROLE_USER                                                       |
 
 ## Functional tests
 

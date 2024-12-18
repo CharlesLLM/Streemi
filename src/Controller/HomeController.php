@@ -11,8 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class HomeController extends AbstractController
 {
-    // TODO : '/'
-    #[Route(path: '/home', name: 'app_home', methods: ['GET'])]
+    #[Route(path: '/', name: 'app_home', methods: ['GET'])]
     public function index(MovieRepository $movieRepository): Response
     {
         return $this->render('app/home/index.html.twig', [
