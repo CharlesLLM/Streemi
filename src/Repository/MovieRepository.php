@@ -57,4 +57,18 @@ class MovieRepository extends ServiceEntityRepository
 
         return \count($result) > 0;
     }
+
+    public function findRandom(?int $limit = null): array
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->where('m.title LIKE :query')
+            ->setParameter('query', '%Harry Potter%') // ;)
+            ->orderBy('RAND()');
+
+        if (null !== $limit) {
+            $qb->setMaxResults(3);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
