@@ -57,6 +57,7 @@ COPY docker/pool.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/symfony.conf /etc/nginx/symfony.conf
+COPY docker/certificates /etc/nginx/ssl
 
 RUN mkdir -p /app/var/log /app/var/cache /run/php
 
