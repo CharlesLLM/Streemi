@@ -34,7 +34,6 @@
                             {% else %}
                                 <form class="mt-10" method="post" id="login-form">
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                                    <input type="hidden" name="_target_path" value="{{ path('admin_dashboard') }}">
                                     <div class="relative">
                                         <input type="text" value="{{ last_username }}" name="_username" id="username" class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white" autocomplete="username" placeholder="Nom d'utilisateur" required autofocus>
                                     </div>
