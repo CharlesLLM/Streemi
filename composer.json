@@ -47,6 +47,7 @@
         "symfony/validator": "*",
         "symfony/web-link": "*",
         "symfony/yaml": "*",
+        "symfonycasts/reset-password-bundle": "^1.23",
         "tales-from-a-dev/twig-tailwind-extra": "^0.3.0",
         "twig/extra-bundle": "^3.9",
         "twig/intl-extra": "^3.8",
