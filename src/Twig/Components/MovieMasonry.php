@@ -20,7 +20,7 @@ class MovieMasonry
     #[LiveProp]
     public Category $category;
 
-    private const PER_PAGE = 3;
+    private const PER_PAGE = 9;
 
     #[LiveProp]
     public int $page = 1;
@@ -39,7 +39,7 @@ class MovieMasonry
 
     public function hasMore(): bool
     {
-        return $this->movieRepository->hasMore($this->category, $this->page, self::PER_PAGE);
+        return $this->movieRepository->hasMore($this->page, self::PER_PAGE, $this->category);
     }
 
     public function getMovies(): iterable

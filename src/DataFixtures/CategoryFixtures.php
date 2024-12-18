@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 
 final class CategoryFixtures extends Fixture
 {
@@ -32,18 +31,16 @@ final class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $slugger = new AsciiSlugger();
-
-        foreach (self::DATA as $i => $data) {
+        foreach (self::DATA as $key => $data) {
             $category = new Category();
             $category
                 ->setName($data['name'])
-                ->setSlug($slugger->slug($data['name']))
+                ->setSlug($key)
                 ->setLabel($data['label'])
             ;
 
             $manager->persist($category);
-            $this->setReference(self::REFERENCE_IDENTIFIER.$i, $category);
+            $this->setReference(self::REFERENCE_IDENTIFIER.$key, $category);
         }
 
         $manager->flush();

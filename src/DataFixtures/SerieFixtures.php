@@ -24,6 +24,7 @@ final class SerieFixtures extends Fixture
                 ->setLongDescription($faker->text(500))
                 ->setReleaseDate($faker->dateTimeBetween('-1 year', 'now'))
                 ->setCoverImage($faker->imageUrl(1280, 720))
+                ->setScore($faker->numberBetween(0, 5))
                 ->setStaff([$faker->name, $faker->name, $faker->name])
                 ->setCast([$faker->name, $faker->name, $faker->name])
             ;

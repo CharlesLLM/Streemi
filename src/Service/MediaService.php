@@ -32,15 +32,15 @@ final class MediaService
 
     public function formatForDisplay(array $results): array
     {
-        $items = [];
-        foreach ($results as $item) {
-            $items[] = [
+        $items = array_map(
+            fn ($item) => [
                 'id' => $item->getId(),
                 'title' => $item->getTitle(),
                 'releaseDate' => $item->getReleaseDate(),
                 'coverImage' => $item->getCoverImage(),
-            ];
-        }
+            ],
+            $results
+        );
 
         return $items;
     }
