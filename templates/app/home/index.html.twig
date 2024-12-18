@@ -60,7 +60,7 @@
         </div>
 
         <ul class="mt-4 grid grid-cols-2 gap-y-5 sm:grid-cols-3 gap-x-5">
-            {% for movie in movies %}    
+            {% for movie in movies %}
                 <li>
                     <a href="{{ path('app_movie_show', {id: movie.id}) }}" class="relative flex flex-col overflow-hidden aspect-square border rounded-xl hover:scale-105 transition hover:shadow-md hover:opacity-90">
                         <button href="{{ path('app_movie_show', {id: movie.id}) }}" class="p-2.5 bg-gray-800/90 rounded-lg text-white self-end hover:bg-red-600/80 absolute top-2 right-2">

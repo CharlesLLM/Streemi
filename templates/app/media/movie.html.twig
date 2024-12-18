@@ -82,7 +82,7 @@
         <div class="max-w-3xl mx-auto mt-9">
             <h2 class="text-lg font-medium text-black"><span class="font-bold text-red-600">Équipe</span> du film</h2>
             <ul class="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5">
-                {% for person in movie.staff %}    
+                {% for person in movie.staff %}
                     <li class="relative rounded-xl overflow-hidden transition cursor-pointer hover:scale-105 hover:opacity-90 hover:shadow-md">
                         {# TODO : Actual picture #}
                         <img src="{{ movie.coverImage }}" class="object-cover h-full w-full -z-10" alt="">
@@ -99,7 +99,7 @@
         <div class="max-w-3xl mx-auto mt-9">
             <h2 class="text-lg font-medium text-black">Le <span class="font-bold text-red-600">Casting</span></h2>
             <ul class="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5">
-                {% for person in movie.cast %}    
+                {% for person in movie.cast %}
                     <li class="relative rounded-xl overflow-hidden transition cursor-pointer hover:scale-105 hover:opacity-90 hover:shadow-md">
                         {# TODO : Actual picture #}
                         <img src="{{ movie.coverImage }}" class="object-cover size-full -z-10" alt="">
