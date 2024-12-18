@@ -34,7 +34,7 @@
         "symfony/property-access": "*",
         "symfony/property-info": "*",
         "symfony/runtime": "*",
-        "symfony/security-bundle": "*",
+        "symfony/security-bundle": "7.1.*",
         "symfony/serializer": "*",
         "symfony/stimulus-bundle": "*",
         "symfony/string": "*",
