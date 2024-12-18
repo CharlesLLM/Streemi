@@ -9,14 +9,14 @@
                 <div class="bg-white rounded-lg p-8 relative w-full">
                     <h1 class="text-center text-lg font-bold">Mot de passe perdu ?</h1>
                     <p class="text-center text-sm font-medium opacity-70 mt-5">Vous recevez un email pour réinitialiser votre mot de passe</p>
-                    {{ form_start(requestForm, {'attr': {'class': 'mt-10'}}) }}
+                    {{ form_start(requestForm, {attr: {class: 'mt-10'}}) }}
                         {{ form_row(requestForm.email, {
-                            'row_attr': {
-                                'class': 'relative'
+                            row_attr: {
+                                class: 'relative'
                             },
-                            'attr': {
-                                'class': 'w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white',
-                                'placeholder': 'Adresse Email'
+                            attr: {
+                                class: 'w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white',
+                                placeholder: 'Adresse Email'
                             }
                         }) }}
                             {# <input class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white" id="username" type="text" placeholder="Adresse Email"/> #}
