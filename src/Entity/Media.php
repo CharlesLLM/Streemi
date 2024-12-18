@@ -44,6 +44,9 @@ abstract class Media
     #[ORM\Column]
     private array $cast = [];
 
+    #[ORM\Column]
+    private ?float $score = null;
+
     #[ORM\OneToMany(mappedBy: 'media', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
@@ -153,6 +156,18 @@ abstract class Media
     public function setCast(array $cast): static
     {
         $this->cast = $cast;
+
+        return $this;
+    }
+
+    public function getScore(): ?float
+    {
+        return $this->score;
+    }
+
+    public function setScore(?float $score): static
+    {
+        $this->score = $score;
 
         return $this;
     }
