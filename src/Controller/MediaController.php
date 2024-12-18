@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Movie;
 use App\Repository\CategoryRepository;
 use App\Repository\MovieRepository;
 use App\Repository\PlaylistRepository;
@@ -53,6 +54,14 @@ final class MediaController extends AbstractController
             'playlists' => $playlistRepository->findAll(),
             'subscribedPlaylists' => $playlistSubscriptionRepository->findBy(['subscriber' => $this->getUser()]),
             'selectedPlaylist' => $selectedPlaylist,
+        ]);
+    }
+
+    #[Route(path: '/movie/{id}', name: 'app_movie_show')]
+    public function movie(Movie $movie): Response
+    {
+        return $this->render('app/media/movie.html.twig', [
+            'movie' => $movie
         ]);
     }
 }
